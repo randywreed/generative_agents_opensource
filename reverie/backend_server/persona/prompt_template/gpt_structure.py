@@ -29,21 +29,9 @@ llm = OpenAI(temperature=0,model_name="gpt-3.5-turbo-16k")
 '''
 llm = ChatAnthropic(model_name="claude-2", temperature=0)
 '''
-### *** Ollama (Vicuna-13b-16k) *** 
-''' 
-llm = Ollama(base_url="http://localhost:11434",
-              model="vicuna:13b-v1.5-16k-q4_0",
-              callback_manager = CallbackManager([StreamingStdOutCallbackHandler()]))
-'''
 
-### *** Ollama (Llama2-13b) *** 
-llm = Ollama(base_url="http://localhost:11434",
-              model="llama2:13b",
-              callback_manager = CallbackManager([StreamingStdOutCallbackHandler()]))
-
-### *** Llama.cpp (Llama2-13b) *** ###
+### *** Llama.cpp (Llama2-13b) ***
 '''
->>>>>>> rlm/configure_llm
 n_gpu_layers = 1  # Metal set to 1 is enough.
 n_batch = 512  # Should be between 1 and n_ctx, consider the amount of RAM of your Apple Silicon Chip.
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
@@ -57,6 +45,18 @@ llm = LlamaCpp(
     verbose=True,
 )
 ''' 
+
+### *** Ollama (Vicuna-13b-16k) *** 
+''' 
+llm = Ollama(base_url="http://localhost:11434",
+              model="vicuna:13b-v1.5-16k-q4_0",
+              callback_manager = CallbackManager([StreamingStdOutCallbackHandler()]))
+'''
+
+### *** Ollama (Llama2-13b) *** 
+llm = Ollama(base_url="http://localhost:11434",
+              model="llama2:13b",
+              callback_manager = CallbackManager([StreamingStdOutCallbackHandler()]))
 
 def temp_sleep(seconds=0.1):
   time.sleep(seconds)

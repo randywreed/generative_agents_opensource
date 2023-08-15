@@ -6,11 +6,7 @@
 <img src="cover.png" alt="Smallville" style="width: 80%; min-width: 300px; display: block; margin: auto;">
 </p>
 
-This is a fork of the repository that accompanies the research paper titled "Generative Agents: Interactive Simulacra of Human Behavior."
-
-The origional repo was default configured for OpenAI.
- 
-This fork configures the generate agents simulation to run with various LLMs using LangChain to choose the LLM of interest.
+This is a fork of the repository that accompanies the research paper titled "Generative Agents: Interactive Simulacra of Human Behavior." The origional repo was default configured for OpenAI. This fork configures the generate agents simulation to run with various LLMs using LangChain to choose the LLM of interest.
 
 In particular, there are at least two different types of LLMs to try:
 
@@ -24,7 +20,7 @@ In particular, there are at least two different types of LLMs to try:
 I use [Ollama](https://python.langchain.com/docs/integrations/llms/ollama) for easy / quick setup:
 
 * [Download the app](https://ollama.ai/download)
-* Fetch a model, e.g., for Llama-13b run ollama pull llama2:13b
+* Fetch a model, e.g., for Llama-13b run: `ollama pull llama2:13b`
 * The code uses LangChain's integration for easy model-swapping
 
 Note: LlamaCpp or GPT4All are [other great options.](https://python.langchain.com/docs/use_cases/question_answering/how_to/local_retrieval_qa).
