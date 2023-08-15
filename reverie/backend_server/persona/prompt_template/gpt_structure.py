@@ -13,6 +13,8 @@ from utils import *
 from langchain.llms import Ollama
 from langchain.llms import OpenAI
 from langchain.llms import LlamaCpp
+from langchain.llms import GPT4All
+from langchain.chat_models import ChatAnthropic
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
@@ -35,8 +37,9 @@ llm = ChatAnthropic(model_name="claude-2", temperature=0)
 n_gpu_layers = 1  # Metal set to 1 is enough.
 n_batch = 512  # Should be between 1 and n_ctx, consider the amount of RAM of your Apple Silicon Chip.
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
+model_path="/Users/rlm/Desktop/Code/llama.cpp/llama-2-13b-chat.ggmlv3.q4_0.bin"
 llm = LlamaCpp(
-    model_path="/Users/rlm/Desktop/Code/llama.cpp/llama-2-13b-chat.ggmlv3.q4_0.bin",
+    model_path=model_path,
     n_gpu_layers=n_gpu_layers,
     n_batch=n_batch,
     n_ctx=4096,
@@ -45,6 +48,14 @@ llm = LlamaCpp(
     verbose=True,
 )
 ''' 
+
+### *** GPT4Alll (nous-hermes-13b) *** 
+''' 
+model_path = "/Users/rlm/Desktop/Code/gpt4all/models/nous-hermes-13b.ggmlv3.q4_0.bin"
+llm = GPT4All(
+    model=model_path
+)
+'''
 
 ### *** Ollama (Vicuna-13b-16k) *** 
 ''' 
