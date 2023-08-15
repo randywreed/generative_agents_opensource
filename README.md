@@ -1,23 +1,37 @@
 
 
-# Generative Agents w/ Llama2
+# Generative Agents with Llama2
 
 <p align="center" width="100%">
 <img src="cover.png" alt="Smallville" style="width: 80%; min-width: 300px; display: block; margin: auto;">
 </p>
 
-This is a fork of the repository accompanies the research paper titled "[Generative Agents: Interactive Simulacra of Human Behavior](https://arxiv.org/abs/2304.03442)." The `Generative Agents` repo is hard-coded for OpenAI LLMs, but there is interest in testing this code with various alternative LLMs, such as open source models (e.g., Llama2). This makes it easy to test generative agents with many different LLMs with minimal code changes over the base repo using LangChain's integration w/ many LLMs.
+This is a fork of the repository that accompanies the research paper titled "Generative Agents: Interactive Simulacra of Human Behavior."
+
+The origional repo was default configured for OpenAI.
+ 
+This fork configures the generate agents simulation to run with various LLMs using LangChain to choose the LLM of interest.
+
+In particular, there are at least two different types of LLMs to try:
+
+* `Large context LLMs` (e.g., Anthropic Claude-2 with 100k token context window)
+* `Local open source LLM` (e.fg., Llama2, given the [high cost of running simulations](https://twitter.com/NickADobos/status/1690790151503724544?s=20))
 
 ## <img src="https://joonsungpark.s3.amazonaws.com:443/static/assets/characters/profile/Isabella_Rodriguez.png" alt="Generative Isabella">   Setting Up the Environment 
 
 ### Step 1. To run locally, select an open source LLM of interest
-[Ollama](https://python.langchain.com/docs/integrations/llms/ollama) is one option for easy / quick setup:
-* [Download](https://ollama.ai/download)
-* Fetch a model, e.g., for `Llama-7b`, then `ollama pull llama2`
-* Run `ollama run llama2`
 
-[LlamaCpp](https://python.langchain.com/docs/use_cases/question_answering/how_to/local_retrieval_qa) is another great option: 
-* Follow the steps linked [here](https://python.langchain.com/docs/use_cases/question_answering/how_to/local_retrieval_qa)
+I use [Ollama](https://python.langchain.com/docs/integrations/llms/ollama) for easy / quick setup:
+
+* [Download the app](https://ollama.ai/download)
+* Fetch a model, e.g., for Llama-13b run ollama pull llama2:13b
+* The code uses LangChain's integration for easy model-swapping
+
+Note: LlamaCpp or GPT4All are [other great options.](https://python.langchain.com/docs/use_cases/question_answering/how_to/local_retrieval_qa).
+
+The LLM is set at the top of `gpt_structure.py`.
+
+The rest of the steps follow the origional repo:
 
 ### Step 2. Generate Utils File
 In the `reverie/backend_server` folder (where `reverie.py` is located), create a new file titled `utils.py` and copy and paste the content below into the file:
@@ -40,9 +54,10 @@ debug = True
 
 LangChain's LLM integration make it east to test different options.
 
-Suppply API keys for LLMs you want to test.
+Suppply API keys for LLMs you want to test that require them.
+ 
+Of course, for Llama2 or other open source models running locally, you will not need a key.
 
- Of course, for Llama2 or other OSS models, you will not need a key.
 ```
 # Copy and paste any API Keys for LLMs you want to test
 openai_api_key = "<Your OpenAI API>"
