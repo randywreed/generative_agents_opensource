@@ -53,11 +53,6 @@ etc
 ### Step 3. Install requirements.txt
 Install everything listed in the `requirements.txt` file (w/ up a virtualenv as usual). A note on Python version: we tested our environment on Python 3.9.12. 
 
-### Step 4. Start Llama2
-```
-ollama run llama2:13b 
-```
-
 ## <img src="https://joonsungpark.s3.amazonaws.com:443/static/assets/characters/profile/Klaus_Mueller.png" alt="Generative Klaus">   Running a Simulation 
 To run a new simulation, you will need to concurrently start two servers: the environment server and the agent simulation server.
 
