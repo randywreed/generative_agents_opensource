@@ -30,14 +30,20 @@ llm = OpenAI(temperature=0,model_name="gpt-3.5-turbo-16k")
 llm = ChatAnthropic(model_name="claude-2", temperature=0)
 '''
 
-### *** Ollama (Llama2-13b) *** 
+### *** Ollama (Vicuna-13b-16k) *** 
 ''' 
 llm = Ollama(base_url="http://localhost:11434",
-              model="llama2",
+              model="vicuna:13b-v1.5-16k-q4_0",
               callback_manager = CallbackManager([StreamingStdOutCallbackHandler()]))
 '''
+
+### *** Ollama (Llama2-13b) *** 
+llm = Ollama(base_url="http://localhost:11434",
+              model="llama2:13b",
+              callback_manager = CallbackManager([StreamingStdOutCallbackHandler()]))
   
 ### *** Llama.cpp (Llama2-13b) *** ###
+'''
 n_gpu_layers = 1  # Metal set to 1 is enough.
 n_batch = 512  # Should be between 1 and n_ctx, consider the amount of RAM of your Apple Silicon Chip.
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
@@ -50,6 +56,7 @@ llm = LlamaCpp(
     callback_manager=callback_manager,
     verbose=True,
 )
+'''
 
 def temp_sleep(seconds=0.1):
   time.sleep(seconds)
@@ -103,12 +110,12 @@ def ChatGPT_request(prompt,parameters):
     a str of LLM's response. 
   """
   # temp_sleep()
-  try:
-    response = llm(prompt)
-  except ValueError:
-    print("Requested tokens exceed context window")
-    ### TODO: Add map-reduce or splitter to handle this error.
-    return "LLM ERROR"
+  # try:
+  response = llm(prompt)
+  # except ValueError:
+  #  print("Requested tokens exceed context window")
+  #  ### TODO: Add map-reduce or splitter to handle this error.
+  #  return "LLM ERROR"
   return response
 
 def ChatGPT_safe_generate_response(prompt, 
@@ -195,12 +202,12 @@ def GPT_request(prompt,parameters):
     a str of LLM's response. 
   """
   # temp_sleep()
-  try:
-    response = llm(prompt)
-  except ValueError:
-    print("Requested tokens exceed context window")
-    ### TODO: Add map-reduce or splitter to handle this error.
-    return "LLM ERROR"
+  # try:
+  response = llm(prompt)
+  # except ValueError:
+  # print("Requested tokens exceed context window")
+  ### TODO: Add map-reduce or splitter to handle this error.
+  # return "LLM ERROR"
   return response
 
 def generate_prompt(curr_input, prompt_lib_file): 
