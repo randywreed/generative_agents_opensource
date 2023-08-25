@@ -12,7 +12,7 @@ This is a fork of the repository that accompanies the research paper titled "Gen
 
 ## <img src="https://joonsungpark.s3.amazonaws.com:443/static/assets/characters/profile/Isabella_Rodriguez.png" alt="Generative Isabella">   Setting Up the Environment 
 
-### Step 1. To run locally, select an open source LLM of interest
+### Step 1. To run locally, select an open source LLM and embeedings of interest
 
 [Ollama](https://python.langchain.com/docs/integrations/llms/ollama) is one option for easy / quick setup:
 
@@ -24,6 +24,9 @@ This is a fork of the repository that accompanies the research paper titled "Gen
 The LLM is set at the top of `gpt_structure.py`.
 
 The rest of the steps follow the original repo, except you don't need to supply an API key if running an LLM locally:
+
+In addition, you will need to run an local embeddings model.
+[GPT4All](https://python.langchain.com/docs/integrations/text_embedding/gpt4all) is a good option.
 
 ### Step 2. Generate Utils File
 In the `reverie/backend_server` folder (where `reverie.py` is located), create a new file titled `utils.py` and copy and paste the content below into the file:

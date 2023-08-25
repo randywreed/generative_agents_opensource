@@ -15,6 +15,7 @@ from langchain.llms import OpenAI
 from langchain.llms import LlamaCpp
 from langchain.llms import GPT4All
 from langchain.chat_models import ChatAnthropic
+from langchain.embeddings import GPT4AllEmbeddings
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
@@ -245,13 +246,14 @@ def safe_generate_response(prompt,
   return fail_safe_response
 
 
-def get_embedding(text, model="text-embedding-ada-002"):
+def get_embedding(text, model=None):
+  # Use GPT4All local embeddings 
+  # https://python.langchain.com/docs/integrations/text_embedding/gpt4all
   text = text.replace("\n", " ")
   if not text: 
     text = "this is blank"
-  return openai.Embedding.create(
-          input=[text], model=model)['data'][0]['embedding']
-
+  gpt4all_embd = GPT4AllEmbeddings()
+  return gpt4all_embd.embed_query(text)
 
 if __name__ == '__main__':
   gpt_parameter = {"engine": "text-davinci-003", "max_tokens": 50, 
