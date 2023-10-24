@@ -14,19 +14,28 @@ from langchain.llms import Ollama
 from langchain.llms import OpenAI
 from langchain.llms import LlamaCpp
 from langchain.llms import GPT4All
+from langchain.chat_models import ChatOpenAI
+from langchain.prompts.chat import (
+  ChatMessagePromptTemplate,
+  SystemMessagePromptTemplate,
+  HumanMessagePromptTemplate,
+  AIMessagePromptTemplate,
+  ChatPromptTemplate
+)
+from langchain.schema import AIMessage, HumanMessage, SystemMessage  
 from langchain.chat_models import ChatAnthropic
 from langchain.embeddings import GPT4AllEmbeddings
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain.schema.output_parser import StrOutputParser
 
 # ============================================================================
 # ################### [Set LLM] ###################
 # ============================================================================
 
 ### **** OpenAI **** 
-'''
-llm = OpenAI(temperature=0,model_name="gpt-3.5-turbo-16k")
-'''
+llm = ChatOpenAI(temperature=0,model_name="gpt-3.5-turbo")
+
 
 ### **** Anthropic **** 
 '''
@@ -59,16 +68,15 @@ llm = GPT4All(
 '''
 
 ### *** Ollama (Vicuna-13b-16k) *** 
-''' 
-llm = Ollama(base_url="http://localhost:11434",
-              model="vicuna:13b-v1.5-16k-q4_0",
-              callback_manager = CallbackManager([StreamingStdOutCallbackHandler()]))
-'''
+ 
+# llm = Ollama(base_url="http://sheridan.appstate.edu:11434",
+#               model="mistral:latest",
+#               callback_manager = CallbackManager([StreamingStdOutCallbackHandler()]))
 
 ### *** Ollama (Llama2-13b) *** 
-llm = Ollama(base_url="http://localhost:11434",
-              model="llama2:13b",
-              callback_manager = CallbackManager([StreamingStdOutCallbackHandler()]))
+# llm = Ollama(base_url="http://localhost:11434",
+#               model="llama2:13b",
+#               callback_manager = CallbackManager([StreamingStdOutCallbackHandler()]))
 
 def temp_sleep(seconds=0.1):
   time.sleep(seconds)
@@ -76,7 +84,10 @@ def temp_sleep(seconds=0.1):
 def ChatGPT_single_request(prompt): 
   temp_sleep()
   try:
-    response = llm(prompt)
+    prompt=ChatPromptTemplate.from_template(prompt)
+    chain = prompt | llm | StrOutputParser
+    response=chain.invoke()
+    # response = llm(prompt)
   except ValueError:
     print("Requested tokens exceed context window")
     ### TODO: Add map-reduce or splitter to handle this error.
@@ -98,7 +109,9 @@ def ChatGPT_request(prompt,parameters):
   """
   # temp_sleep()
   try:
-    response = llm(prompt)
+    prompt=ChatPromptTemplate.from_template(prompt)
+    chain = prompt | llm | StrOutputParser
+    response=chain.invoke()
   except ValueError:
     print("Requested tokens exceed context window")
     ### TODO: Add map-reduce or splitter to handle this error.
@@ -235,8 +248,11 @@ def safe_generate_response(prompt,
   if verbose: 
     print (prompt)
 
-  for i in range(repeat): 
-    curr_gpt_response = GPT_request(prompt, gpt_parameter)
+  for i in range(repeat):
+    if gpt_parameter['engine'] == "chat-gpt": 
+      curr_gpt_response = ChatGPT_request(prompt)
+    else:
+      curr_gpt_response = GPT_request(prompt, gpt_parameter)
     if func_validate(curr_gpt_response, prompt=prompt): 
       return func_clean_up(curr_gpt_response, prompt=prompt)
     if verbose: 
@@ -256,7 +272,7 @@ def get_embedding(text, model=None):
   return gpt4all_embd.embed_query(text)
 
 if __name__ == '__main__':
-  gpt_parameter = {"engine": "text-davinci-003", "max_tokens": 50, 
+  gpt_parameter = {"engine": "chat-gpt", "max_tokens": 50, 
                    "temperature": 0, "top_p": 1, "stream": False,
                    "frequency_penalty": 0, "presence_penalty": 0, 
                    "stop": ['"']}
